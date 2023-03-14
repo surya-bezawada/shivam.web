@@ -1,0 +1,130 @@
+﻿@model List<Sivam.web.Models.BannersModel>
+@{
+    ViewBag.Title = "ManageBanners";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    /*.fa-trash,.fa-edit{
+        font-size:15px;
+    }*/
+    .fa-trash {
+        color: red;
+    }
+
+    .fa-edit {
+        color: blue;
+    }
+
+    .zoom {
+        transition: transform .2s; /* Animation */
+        width: 150px;
+        height: 100px;
+        margin: 0 auto;
+    }
+
+        .zoom:hover {
+            transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+        }
+
+    #tblBanners td{
+        vertical-align: middle;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Banners
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Banners</li>
+        <li class="active">Manage Banners</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Manage Banners</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (Model != null)
+                    {
+                        <table id="tblBanners" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Banner</th>
+                                    <th>Title</th>
+                                    <th>Created On</th>
+                                    <th>Is Active</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><img src="@item.ImgUrl" class="zoom" alt="Image Banner" width="100" height="100" /></td>
+                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                        @*<td>@Html.DisplayFor(modelItem => item.ImgUrl)</td>*@
+                                        <td>@Html.DisplayFor(modelItem => item.CreatedOn)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                                        <td><a href="~/Admin/AddBanner?bid=@item.Bid" class="fa fa-edit fa-lg"></a> | <a href="" class="fa fa-trash fa-lg" onclick="Delete('@item.Bid')"></a></td>
+                                    </tr>
+                                }
+                        </table>
+                    }
+                    else
+                    {
+                        <div>No banners found</div>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- DataTables -->
+<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('#tblBanners').DataTable();
+    });
+    function Delete(id){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Doctors")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Doctors";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>
+

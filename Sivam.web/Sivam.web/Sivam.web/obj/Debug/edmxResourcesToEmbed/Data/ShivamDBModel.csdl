@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShivmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblBooking">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BookingDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimeSlotId" Type="Int32" />
+    <Property Name="DeptId" Type="Int32" />
+    <Property Name="OTP" Type="Int32" />
+    <Property Name="IsExpired" Type="Boolean" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="MACAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeviceInfo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="SecureKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblDeptMaster">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobileNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblOTPDetail">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="APIResponse" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BookingId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblTimesMaster">
+    <Key>
+      <PropertyRef Name="TimeSlotId" />
+    </Key>
+    <Property Name="TimeSlotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Timing" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblVideo">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="VideoUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="ModififiedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="ShivamDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblBookings" EntityType="Self.tblBooking" />
+    <EntitySet Name="tblDeptMasters" EntityType="Self.tblDeptMaster" />
+    <EntitySet Name="tblOTPDetails" EntityType="Self.tblOTPDetail" />
+    <EntitySet Name="tblTimesMasters" EntityType="Self.tblTimesMaster" />
+    <EntitySet Name="tblVideos" EntityType="Self.tblVideo" />
+    <FunctionImport Name="sp_getAdminDashboard" />
+    <FunctionImport Name="sp_getReport" ReturnType="Collection(ShivmModel.sp_getReport_Result)">
+      <Parameter Name="startdate" Mode="In" Type="DateTime" />
+      <Parameter Name="enddate" Mode="In" Type="DateTime" />
+      <Parameter Name="status" Mode="In" Type="Boolean" />
+      <Parameter Name="filter" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_getReport_Result">
+    <Property Type="Int32" Name="RecId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Mobile" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="BookingDate" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TimeSlotId" Nullable="true" />
+    <Property Type="Int32" Name="DeptId" Nullable="true" />
+    <Property Type="Int32" Name="OTP" Nullable="true" />
+    <Property Type="Boolean" Name="IsExpired" Nullable="false" />
+    <Property Type="Boolean" Name="Status" Nullable="false" />
+    <Property Type="String" Name="MACAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DeviceInfo" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IPAddress" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="SecureKey" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+  </ComplexType>
+</Schema>

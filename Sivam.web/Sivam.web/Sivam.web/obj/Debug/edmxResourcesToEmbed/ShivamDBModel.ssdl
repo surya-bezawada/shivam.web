@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShivmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblBanners">
+    <Key>
+      <PropertyRef Name="Bid" />
+    </Key>
+    <Property Name="Bid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" />
+    <Property Name="ImgUrl" Type="nvarchar(max)" />
+    <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblBookings">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="BookingDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeSlotId" Type="int" />
+    <Property Name="DeptId" Type="int" />
+    <Property Name="MACAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="DeviceInfo" Type="nvarchar" MaxLength="100" />
+    <Property Name="IPAddress" Type="nvarchar" MaxLength="20" />
+    <Property Name="SecureKey" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblDeptMaster">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MobileNumber" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tblTimesMaster">
+    <Key>
+      <PropertyRef Name="TimeSlotId" />
+    </Key>
+    <Property Name="TimeSlotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Timing" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="ShivmModelStoreContainer">
+    <EntitySet Name="tblBanners" EntityType="Self.tblBanners" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblBookings" EntityType="Self.tblBookings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblDeptMaster" EntityType="Self.tblDeptMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTimesMaster" EntityType="Self.tblTimesMaster" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ShivmModelStoreContainer" CdmEntityContainer="ShivamDBEntities">
+    <EntitySetMapping Name="tblBookings">
+      <EntityTypeMapping TypeName="ShivmModel.tblBooking">
+        <MappingFragment StoreEntitySet="tblBookings">
+          <ScalarProperty Name="RecId" ColumnName="RecId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+          <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+          <ScalarProperty Name="OTP" ColumnName="OTP" />
+          <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MACAddress" ColumnName="MACAddress" />
+          <ScalarProperty Name="DeviceInfo" ColumnName="DeviceInfo" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="SecureKey" ColumnName="SecureKey" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblDeptMasters">
+      <EntityTypeMapping TypeName="ShivmModel.tblDeptMaster">
+        <MappingFragment StoreEntitySet="tblDeptMaster">
+          <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+          <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblOTPDetails">
+      <EntityTypeMapping TypeName="ShivmModel.tblOTPDetail">
+        <MappingFragment StoreEntitySet="tblOTPDetails">
+          <ScalarProperty Name="RecId" ColumnName="RecId" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="APIResponse" ColumnName="APIResponse" />
+          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTimesMasters">
+      <EntityTypeMapping TypeName="ShivmModel.tblTimesMaster">
+        <MappingFragment StoreEntitySet="tblTimesMaster">
+          <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+          <ScalarProperty Name="Timing" ColumnName="Timing" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblVideos">
+      <EntityTypeMapping TypeName="ShivmModel.tblVideo">
+        <MappingFragment StoreEntitySet="tblVideos">
+          <ScalarProperty Name="RecId" ColumnName="RecId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="VideoUrl" ColumnName="VideoUrl" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="ModififiedOn" ColumnName="ModififiedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_getAdminDashboard" FunctionName="ShivmModel.Store.sp_getAdminDashboard" />
+    <FunctionImportMapping FunctionImportName="sp_getReport" FunctionName="ShivmModel.Store.sp_getReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ShivmModel.sp_getReport_Result">
+          <ScalarProperty Name="RecId" ColumnName="RecId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+          <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+          <ScalarProperty Name="OTP" ColumnName="OTP" />
+          <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MACAddress" ColumnName="MACAddress" />
+          <ScalarProperty Name="DeviceInfo" ColumnName="DeviceInfo" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="SecureKey" ColumnName="SecureKey" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

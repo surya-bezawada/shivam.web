@@ -1,0 +1,237 @@
+﻿@*@model IEnumerable<Sivam.web.Models.ReportModel>*@
+@{
+    /**/
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>
+        Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Reports</li>
+    </ol>
+</section>
+<section class="content-header">
+    <form action="/">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Start Date:</label>
+                    <input type="text" class="form-control" id="startDate" placeholder="Start Date" readonly>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>End Date:</label>
+                    <input type="text" class="form-control" id="endDate" placeholder="End Date" readonly>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <label>Status:</label>
+                <select id="status" class="form-control">
+                    <option value="1">Success</option>
+                    <option value="0">Failed</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <button type="button" id="resetFilters" class="btn btn-default">Reset</button>
+                <button type="button" id="applyFilters" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                @*<div class="box-header">
+                        <h3 class="box-title">Reports</h3>
+                    </div>*@
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="tblReports" class="display nowrap table table-bordered table-striped" cellspacing="0" width="100%" style="text-align:left"></table>
+                    @*@if (Model != null)
+                        {
+                            <table id="tblReports" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Patient</th>
+                                        <th>Mobile</th>
+                                        <th>Booking Date</th>
+                                        <th>Department</th>
+                                        <th>Time</th>
+                                        <th>Booked On</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.RecId</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Mobile)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.BookingDate)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.DeptName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Timing)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CreatedOn)</td>
+                                        </tr>
+                                    }
+                            </table>
+                        }
+                        else
+                        {
+                            <div>No banners found</div>
+                        }*@
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- DataTables -->
+<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css'
+      rel='stylesheet'>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(function () {
+        //$('#tblReports').DataTable({
+        //    "aaSorting": []
+        //});
+    });
+    $(document).ready(function () {
+        $('#resetFilters').click()
+        var array = ["15-2-2021", "22-2-2021"]
+        $(function () {
+            $("#startDate").datepicker({
+                //dateFormat: 'dd/mm/yy',
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() + 1);
+                    $("#endDate").datepicker("option", "minDate", dt);
+                }
+            });
+
+            $("#endDate").datepicker({
+                //dateFormat: 'dd/mm/yy',
+                // minDate: new Date($('#startDate').val()),
+                onSelect: function (selected) {
+                    var dt = new Date(selected);
+                    dt.setDate(dt.getDate() - 1);
+                    $("#startDate").datepicker("option", "maxDate", dt);
+                }
+            });
+        });
+    })
+    function getformattedDate(dt) {
+        var d = dt.split('/');
+        return d[1] + '/' + d[0] + '/' + d[2]
+    }
+
+    $('#applyFilters').click(function () {
+        var obj = {}
+        obj.StartDate = $('#startDate').val();
+        obj.EndDate = $('#endDate').val();
+        obj.Status = parseInt($('#status').val());
+        var fltr = 0;
+        if ($('#startDate').val() == '' && $('#endDate').val() == '') {
+            fltr = 1;
+        }
+        else if ($('#startDate').val() != '' && $('#endDate').val() == '') {
+            fltr = 2;
+        }
+        else if ($('#startDate').val() != '' && $('#endDate').val() != '') {
+            fltr = 3;
+        }
+        else {
+            fltr = 0;
+        }
+        obj.Filter = fltr;
+        getFilteredData(obj)
+    })
+
+    $('#resetFilters').click(function () {
+        var obj = {}
+        $('#startDate').val('')
+        $('#endDate').val('')
+        $('#status').val('1')
+        obj.StartDate = '';
+        obj.EndDate = '';
+        obj.Status = 1;
+        obj.Filter = 0;
+        getFilteredData(obj)
+    })
+
+    function getFilteredData(obj) {
+        $.ajax({
+            url: "/Admin/GetFilteredReport",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (data) {
+                if ($.fn.dataTable.isDataTable('#tblReports') == true) {
+                    $('#tblReports').dataTable().fnClearTable();
+                    $('#tblReports').dataTable().fnDestroy();
+
+                    $("#tblReports").DataTable().destroy()
+                    $("#tblReports").empty()
+                }
+                loadData(data)
+            },
+        });
+    }
+    function ToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return ('0' + dt.getDate()).slice(-2) + "/" + ('0' + (dt.getMonth() + 1)).slice(-2) + "/" + dt.getFullYear();
+        //return (dt.getDate()) + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
+    }
+    function loadData(data) {
+        var dataSet = [];
+        for (var i = 0; i < data.length; i++) {
+            var stsLabel = '<span class="label label-success">Success</span>';
+            if (data[i].Status == false) {
+                stsLabel = '<span class="label label-danger">Failed</span>';
+            }
+            dataSet[i] = [
+                i + 1,
+                data[i].Name,
+                data[i].Mobile,
+                data[i].BookingDate,
+                data[i].DeptName,
+                data[i].Timing,
+                ToJavaScriptDate(data[i].CreatedOn),
+                stsLabel]
+        }
+
+        $('#tblReports').DataTable({
+            data: dataSet,
+            destroy: true,
+            columns: [
+                { title: "Sno" },
+                { title: "Name" },
+                { title: "Mobile" },
+                { title: "Booking Date" },
+                { title: "Department" },
+                { title: "Timing" },
+                { title: "Booked On" },
+                { title: "Status" }
+            ],
+        });
+    }
+
+</script>

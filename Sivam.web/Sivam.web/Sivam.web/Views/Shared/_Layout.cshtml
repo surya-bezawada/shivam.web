@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/site/images/fev-icon.png" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Hospital</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    @*<!-- Bootstrap -->
+        <link href="~/site/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Jquery Ui -->
+        <link href="~/site/css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+        <!-- Font Awesome -->
+        <link href="~/site/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Flaticon -->
+        <link href="~/site/css/flaticon.css" rel="stylesheet" type="text/css" />*@
+    @Styles.Render("~/Site/css")
+
+    <!-- Owl Carousel -->
+    @*<link href="~/site/owl-carousel/owl.carousel.css" rel="stylesheet" type="text/css" />
+        <link href="~/site/owl-carousel/owl.theme.css" rel="stylesheet" type="text/css" />
+        <link href="~/site/owl-carousel/owl.transitions.css" rel="stylesheet" type="text/css" />*@
+    @Styles.Render("~/Site/owlcarousel")
+
+    @*<!-- Revolution Style Sheet -->
+        <link href="~/site/revolution/css/settings.css" rel="stylesheet" type="text/css" />
+        <!-- Revolution Layers Styles -->
+        <link href="~/site/revolution/css/layers.css" rel="stylesheet" type="text/css" />
+        <!-- Revolution Navigation Styles -->
+        <link href="~/site/revolution/css/navigation.css" rel="stylesheet" type="text/css" />*@
+    @Styles.Render("~/Site/revolution")
+
+    <!-- Custom Style Sheet -->
+
+    <link href="~/site/css/style.css" rel="stylesheet" type="text/css" />
+    @*<script async src='/cdn-cgi/bm/cv/2172558837/api.js'></script>*@
+</head>
+<body id="page-top">
+
+    @RenderBody()
+
+    <!-- Footer Section -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="appointment-link">
+                        <div class="ap-inner">
+                            <div class="ap-icon">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="ap-text">
+                                <h3>Need a Doctor for Check-up?</h3>
+                                <h2>JUST MAKE AN APPOINTMENT & YOU'RE DONE ! </h2>
+                            </div>
+                        </div>
+                        <div class="ap-btn">
+                            <a href="#form" class="thm-btn page-scroll">get an appointment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Address -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="footer-box address-inner">
+                        <img src="~/site/images/logo.png" class="img-responsive" alt="">
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the.
+                        </p>
+
+
+                    </div>
+                </div>
+                <!-- Latest News -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="footer-box">
+                        <h4 class="footer-title">Address</h4>
+                        <div class="address">
+                            <i class="flaticon-placeholder"></i>
+                            <p>C/o Shivam Clinic, House No 2-22-151, Shop No 9 & 10, Sree Nivasam, Y Junction, As Raju Nagar, Bhagyanagar Colony, Kukatpally, Hyderabad - 500072, Near Y Junction </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest Tweet -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="footer-box">
+                        <h4 class="footer-title">Contact Details</h4>
+                        <div class="latest-tweet">
+                            <div class="address">
+                                <i class="flaticon-customer-service"></i>
+                                <p>+91 7207026600,<br>+91 9392596469,<br>+91 9985906600</p>
+                            </div>
+                            <div class="address">
+                                <i class="flaticon-mail"></i>
+                                <p><a href="#"><span class="__cf_email__" data-cfemail="7e1c1a0a1f0d153e19131f1712501d1113">[email&#160;protected]</span></a> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Map -->
+                @*<div class="col-md-3 col-sm-6">
+                    <div class="map">
+                        <h4 class="footer-title">Map</h4>
+                         The element that will contain our Google Map. This is used in both the Javascript and CSS above. 
+                        <div id="map"></div>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    </footer>
+    <div class="sub-footer">
+        <div class="container">
+            <div class="row">
+                <p>Copyright © 2020. All rights reserved</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

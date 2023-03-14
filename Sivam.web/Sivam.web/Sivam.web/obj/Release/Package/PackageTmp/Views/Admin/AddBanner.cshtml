@@ -1,0 +1,246 @@
+﻿@model Sivam.web.Models.BannersModel
+
+@{
+    ViewBag.Title = "AddBanner";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Banners
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Banners</li>
+        <li class="active">Add</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- Horizontal Form -->
+    <div class="col-sm-offset-3 col-sm-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Banner</h3>
+            </div>
+            <!-- /.box-header -->
+
+            <div id="divMsg" class="col-md-12">
+                @if (Request.QueryString["msg"] != null && Request.QueryString["msg"]?.ToString() != "")
+                {
+                    <div class="alert @(Request.QueryString["msg"].Contains("!")?"alert-danger":"alert-success")">
+                        @if (Request.QueryString["msg"] == "insert")
+                        {
+                            <span>Banner saved successfully.</span>
+                        }
+                        else if (Request.QueryString["msg"] == "update")
+                        {
+                            <span>Banner has been updated successfully.</span>
+                        }
+                        else
+                        {
+                            <span>Failed: Something went wrong.</span>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- form start -->
+            <form class="form-horizontal" method="post" name="frmBanners" id="frmBanners" action="/Admin/AddUpdateBanner">
+
+                <div class="box-body">
+                    @Html.HiddenFor(m => m.Bid)
+                    <input type="hidden" value="" id="Bid" name="Bid">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Enter Title", name = "Title" })
+                            @*<input type="text" class="form-control" name="Title" id="Title" placeholder="Enter Title">*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Upload Image</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-default btn-file">
+                                        Browse…
+                                        <input type="file" accept="image/png, image/jpeg, image/gif"
+                                               id="bannerImage" name="bannerImage" value="@Model.ImgUrl">
+                                    </span>
+                                </span>
+                                @Html.HiddenFor(m => m.ImgUrl)
+                                @*<input type="hidden" id="ImgUrl" name="ImgUrl" />*@
+                                <input type="text" class="form-control" readonly>
+                            </div>
+                            <span class="text-danger"></span>
+                            @*<img id='img-upload' />*@
+                            <div class="col-sm-12">
+                                <img src="@(string.IsNullOrEmpty(Model.ImgUrl)? "../images/placeholder.png": Model.ImgUrl)" height="300" width="300" id="bannerPreview" name="bannerPreview" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Is Active</label>
+                        <div class="col-sm-10">
+                            <span class="input-check form-check-input">
+                                <span class="input-check__body">
+                                    @Html.CheckBoxFor(m => m.IsActive, new { @class = "input-check__input", placeholder = "Enter Title", name = "IsActive" })
+                                    @*<input class="input-check__input" type="checkbox" id="IsActive" name="IsActive" onchange="CBChange(this)">*@
+                                    <span class="input-check__box"></span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                @if (Request.QueryString["bid"] != null)
+                {
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-success pull-right" id="btnAddOffer">Update</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="box-footer">
+                        <button type="reset" class="btn btn-default" id="btnReset">
+                            Reset
+                        </button>
+                        <button type="submit" class="btn btn-info pull-right" id="btnAddOffer">Add</button>
+                    </div>
+                }
+
+                <!-- /.box-footer -->
+            </form>
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+<script>
+    $(document).ready(function () {
+        setTimeout('$("#divMsg").hide()', 3000);
+        if (window.location.href.indexOf('msg') > -1) {
+            window.history.pushState('page', 'Title', '/Admin/AddBanner');
+        }
+
+    })
+    $(document).ready(function () {
+        //$('#bannerPreview').hide()
+
+        //File Extension Validation
+        $.validator.addMethod("extension", function (value, element, param) {
+            param = typeof param === "string" ? param.replace(/,/g, '|') : "png|jpeg|jpg|gif";
+            return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i"));
+        },
+            'Please select image with a valid extension.');
+        //Dimension validation of File
+        //$.validator.addMethod('dimention', function (value, element, param) {
+        //    if (element.files.length == 0) {
+        //        return true; //check here if file not added than return true for not check file dimention
+        //    }
+        //    var width = $(element).data('imageWidth');
+        //    var height = $(element).data('imageHeight');
+        //    if (width >= param[0] && height >= param[1]) {
+        //        return true;
+        //    } else {
+        //        return false;
+        //    }
+        //},
+        //    'Please upload an image with minimum of 1300 x 400 pixels');
+
+        //Product Form Validation
+        $(function () {
+            $("form[name='frmBanners']").validate({
+                // Specify validation rules
+                rules: {
+                    Title: "required",
+                    bannerImage: {
+                        required: function (element) {
+                            return ($('#Bid').val() == null || $('#Bid').val() == '' || $('#Bid').val() == '0')
+                        },
+                        //required:true,
+                        extension: "jpg|jpeg|png",
+                        // dimention: [1300, 400]
+                    }
+                },
+                // Specify validation error messages
+                messages: {
+                    Title: "Please Enter Title",
+                    bannerImage: {
+                        required: "Please select Image",
+                        filesize: " file size must be less than 150 KB."
+                    }
+
+                },
+
+                submitHandler: function (form) {
+                    form.submit();
+                    //event.preventDefault();
+                }
+            });
+        });
+    })
+
+    //Image Change Event & assigning width, height
+    $('#bannerImage').change(function () {
+        $('#bannerImage').removeData('imageWidth');
+        $('#bannerImage').removeData('imageHeight');
+        var file = this.files[0];
+        var tmpImg = new Image();
+        tmpImg.src = window.URL.createObjectURL(file);
+        tmpImg.onload = function () {
+            width = tmpImg.naturalWidth,
+                height = tmpImg.naturalHeight;
+            $('#bannerImage').data('imageWidth', width);
+            $('#bannerImage').data('imageHeight', height);
+        }
+    });
+
+    //Adding Change handler to File Type
+    document.getElementById("bannerImage").addEventListener("change", readFile);
+    //Reads the file and to get base64 string
+    function readFile() {
+        base64 = '';
+        if (this.files && this.files[0]) {
+            var FR = new FileReader();
+            FR.addEventListener("load", function (e) {
+                document.getElementById("bannerPreview").src = e.target.result;
+                //document.getElementById("b64").innerHTML = e.target.result;
+                $('#ImgUrl').val(e.target.result.split(',')[1]);
+                //FR.onload = function (e) {
+                $('#bannerPreview').attr('src', e.target.result);
+                //$('#bannerPreview').css('height', '300');
+                //$('#bannerPreview').css('width', '500');
+                $('#bannerPreview').show();
+                //}
+                //console.log(e.target.result);
+            });
+            FR.readAsDataURL(this.files[0]);
+        }
+    }
+    $('#btnAddOffer').click(function () {
+        var form = $("#frmBanners");
+        form.validate();
+        if (!form.valid())
+            return false;
+        setTimeout(function () { }, 1000)
+    });
+
+    //function CBChange(el) {
+    $('#IsActive').change(function (el) {
+        $("#IsActive").val(el.checked);
+    })
+    //}
+
+    $('#btnReset').click(function () {
+        $("#IsActive").val(false);
+        $("#ImgUrl").val('');
+        $("#Bid").val('0');
+        $("#Title").val('');
+        $("#bannerPreview").attr('src', '../images/placeholder.png');
+    })
+</script>
+
+

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShivmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblBookings">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="BookingDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeSlotId" Type="int" />
+    <Property Name="DeptId" Type="int" />
+    <Property Name="OTP" Type="int" />
+    <Property Name="IsExpired" Type="bit" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="MACAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="DeviceInfo" Type="nvarchar" MaxLength="100" />
+    <Property Name="IPAddress" Type="nvarchar" MaxLength="20" />
+    <Property Name="SecureKey" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblDeptMaster">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeptName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MobileNumber" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tblOTPDetails">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="Type" Type="int" />
+    <Property Name="APIResponse" Type="nvarchar(max)" />
+    <Property Name="BookingId" Type="int" Nullable="false" />
+    <Property Name="CreatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblTimesMaster">
+    <Key>
+      <PropertyRef Name="TimeSlotId" />
+    </Key>
+    <Property Name="TimeSlotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Timing" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db-Shivam.dbo.tblVideos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblVideos">
+    <Key>
+      <PropertyRef Name="RecId" />
+    </Key>
+    <Property Name="RecId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="VideoUrl" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="ModififiedOn" Type="datetime" />
+  </EntityType>
+  <Function Name="sp_getAdminDashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_getReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="startdate" Type="datetime" Mode="In" />
+    <Parameter Name="enddate" Type="datetime" Mode="In" />
+    <Parameter Name="status" Type="bit" Mode="In" />
+    <Parameter Name="filter" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="ShivmModelStoreContainer">
+    <EntitySet Name="tblBookings" EntityType="Self.tblBookings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblDeptMaster" EntityType="Self.tblDeptMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblOTPDetails" EntityType="Self.tblOTPDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTimesMaster" EntityType="Self.tblTimesMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblVideos" EntityType="Self.tblVideos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblVideos].[RecId] AS [RecId], 
+    [tblVideos].[Title] AS [Title], 
+    [tblVideos].[Description] AS [Description], 
+    [tblVideos].[VideoUrl] AS [VideoUrl], 
+    [tblVideos].[IsActive] AS [IsActive], 
+    [tblVideos].[CreatedOn] AS [CreatedOn], 
+    [tblVideos].[ModififiedOn] AS [ModififiedOn]
+    FROM [dbo].[tblVideos] AS [tblVideos]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
